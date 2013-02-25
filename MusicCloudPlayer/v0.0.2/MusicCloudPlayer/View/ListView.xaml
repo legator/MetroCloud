@@ -1,0 +1,19 @@
+﻿<UserControl x:Class="MusicCloudPlayer.View.ListView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="400" d:DesignWidth="450">
+    <Grid Margin="10">
+        <Rectangle Fill="Black" Margin="-1,0,-1,-1" Opacity="0.8" Grid.ColumnSpan="4" Grid.RowSpan="1">
+            <Rectangle.Effect>
+                <BlurEffect Radius="15" />
+            </Rectangle.Effect>
+        </Rectangle>
+        <Rectangle Fill="#FFFAFAFA" Grid.ColumnSpan="4" Grid.RowSpan="1"/>
+        <ListBox Name="CloudAudioList"
+                 ItemTemplate="{StaticResource CloudAudioItemTemplate}" ItemContainerStyle="{StaticResource MetroListboxItemStyle}" HorizontalContentAlignment="Stretch" 
+                 ItemsSource="{Binding CloudAudio}" BorderThickness="0" SelectedIndex="{Binding CloudAudioSelectedIndex}" SelectionChanged="ChangeMusiCIndex"/>
+    </Grid>
+</UserControl>
