@@ -1,0 +1,74 @@
+﻿<Window x:Class="MusicCloudPlayer.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:converters="clr-namespace:MusicCloudPlayer.Class" 
+        Title="MiniWindow" Height="80" Width="450"
+        WindowStyle="None" AllowsTransparency="True" Background="Transparent" AllowDrop="True"
+        MouseMove="WindowMouseMove" MouseEnter="ChangeToControl" MouseLeave="ChangeToTitle" Initialized="inited">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="60"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="50"/>
+            <ColumnDefinition Width="20"/>
+        </Grid.ColumnDefinitions>
+        <Rectangle Fill="Black" Margin="-1,0,-1,-1" Opacity="0.8" Grid.ColumnSpan="4" Grid.RowSpan="1">
+            <Rectangle.Effect>
+                <BlurEffect Radius="15" />
+            </Rectangle.Effect>
+        </Rectangle>
+        <Rectangle Fill="#FFFAFAFA" Grid.ColumnSpan="4" Grid.RowSpan="1"/>
+        <MediaElement Name="MediaElement" Visibility="Collapsed" LoadedBehavior="Manual" Source="{Binding CurrentAudio.Url}"/>
+        <Image x:Name="TrackPhoto" Margin="5,5,5,5" Source="/MusicCloudPlayer;component/Image/singsong.png"/>
+        <StackPanel x:Name="SongTitle"  Orientation="Vertical" Grid.Column="1" Visibility="Collapsed" Grid.Row="0">
+                <TextBlock x:Name="Title"  Margin="0,5,0,0" Text="{Binding Name}" FontSize="14" VerticalAlignment="Top"/>
+            <TextBlock x:Name="Artist" Margin="0,5,0,0" Text="{Binding Owner}" FontSize="14" VerticalAlignment="Top" Opacity="0.8"/>
+        </StackPanel>
+        <StackPanel x:Name="SongControl"  Orientation="Vertical" Grid.Column="1" Visibility="Visible" Grid.Row="0">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="5" Height="30">
+                <ToggleButton x:Name="Repeat" Template="{DynamicResource Repeat}" Margin="0,0,10,0" Height="15" Width="15"/>
+                <Button x:Name="PrevAudio" Style="{DynamicResource PrevButtonStyle}" Margin="0,0,10,0" Height="25" Width="25"/>
+                <ToggleButton x:Name="PlayPauseAudio" Style="{DynamicResource PlayPauseButtonStyle}" Margin="0,0,10,0" Height="30" Width="30" Click="PlayPauseClick"/>
+                <Button x:Name="NextAudio" Style="{DynamicResource NextButtonStyle}" Margin="0,0,10,0" Height="25" Width="25"/>
+                <ToggleButton x:Name="Shufle" Template="{DynamicResource Shuffle}"  Margin="0,0,10,0" Height="15" Width="15" RenderTransformOrigin="0.5,0.5">
+                    <ToggleButton.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="90"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </ToggleButton.RenderTransform>
+                </ToggleButton>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Slider x:Name="AudioPozition" Style="{DynamicResource ProgressBarSliderStyle}" 
+                        Value="{Binding Position, Mode=TwoWay}" Maximum="{Binding CurrentDuration.TotalSeconds, Mode=OneWay}"
+                        IsMoveToPointEnabled="True"  Margin="15,5,15,5" Height="10" Width="200"/>
+                <Slider Name="VolumeSlider" Style="{StaticResource MetroSlider}" IsMoveToPointEnabled="True" Foreground="{StaticResource AccentColor}" Height="15" Width="50"
+                        Maximum="100" Orientation="Horizontal" Value="{Binding Volume,Mode=TwoWay}" />
+            </StackPanel>
+        </StackPanel>
+        <StackPanel x:Name="SongSearch"  Orientation="Vertical" Grid.Column="1" Visibility="Collapsed" Grid.Row="0">
+            <TextBox Name="SearchBox" Margin="20,20,-20,20" HorizontalAlignment="Stretch" Style="{StaticResource SearchBoxStyle}"
+                     SnapsToDevicePixels="True" Text="Search" FontWeight="Regular" Width="220" />
+            <ToggleButton Name="SearchIcon" Template="{DynamicResource SearchBoxButton}" Width="20" Height="20"  HorizontalAlignment="Right" 
+                          Click="FindAudio" />
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center"
+                    Grid.Column="2">
+            <ToggleButton Click="ListClick" IsChecked="{Binding IsList}" Template="{DynamicResource List}" Height="20" Width="15" Margin="5,0,10,0"/>
+            <ToggleButton Click="SearchClick" IsChecked="{Binding IsSearch, Mode=OneWay}" Template="{DynamicResource Search}" Height="20" Width="15"/>
+        </StackPanel>
+        <StackPanel Orientation="Vertical" Grid.Column="3"  HorizontalAlignment="Right" VerticalAlignment="Top"  Margin="0,5,5,0" Grid.RowSpan="2">
+            <ToggleButton Click="AccountConnectClick" Margin="0,0,0,5" Template="{DynamicResource ConnectButton}" ToolTip="{Binding IsLogged}"  IsChecked="{Binding IsLogged, Mode=OneWay}"  Width="5" Height="5"/>
+            <ToggleButton Click="PinApp" Margin="0,0,0,5" Template="{DynamicResource PinButton}"  ToolTip="{Binding Pin_app}" IsChecked="{Binding IsPin, Mode=OneWay}" Width="10" Height="10"/>
+            <Button Click="MinApp" Margin="0,0,0,5" Style="{DynamicResource MinimizeButtonStyle}" ToolTip="{Binding Min_app}" />
+            <Button Click="CloseApp" Style="{DynamicResource CloseButtonStyle}" ToolTip="{Binding Close_app}" />
+        </StackPanel>
+    </Grid>
+</Window>
